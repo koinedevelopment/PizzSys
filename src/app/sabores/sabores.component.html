@@ -1,0 +1,74 @@
+<div class="row">
+  <div class="col s12">
+    <ul class="tabs">
+      <li class="tab col s6"><a href="#cadastro">Cadastro</a></li>
+      <li class="tab col s6"><a class="active" href="#lista">Lista</a></li>
+    </ul>
+  </div>
+
+  <div id="cadastro" class="col s12">
+    <div class="row">
+      <div class="col s6 offset-s3">
+        <br>
+        <h4 class="center-align" >Cadastro de sabores</h4>
+        <form [formGroup]="formSabores" (ngSubmit)="onSubmitSabores()" >
+          <div class="row">
+            <div class="col s12 input-field">
+              <input type="text" id="sabor" class="validate" formControlName="descricao" >
+              <label for="sabor">Sabor</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col s12">
+              <input type="checkbox" id="disponivel" formControlName="disponivel" >
+              <label for="disponivel">Disponível?</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col s12">
+              <button [disabled]="formSabores.invalid" type="submit" class="waves-effect col s12 waves-light btn">
+                <i class="material-icons right">send</i> Enviar
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div id="lista" class="col s12">
+    <div class="row">
+      <br>
+      <h4 class="center-align" >Sabores cadastrados</h4>
+      <div class="col s8 offset-s2">
+        <div class="collection">
+          <a *ngFor="let sabor of sabores" href="#modalSabor" (click)="onSelectSabor(sabor)" class="collection-item">{{sabor.descricao}}
+            <span class="badge" *ngIf="sabor.disponivel">Disponível</span>
+            <span class="badge" *ngIf="!sabor.disponivel">Indisponível</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="modalSabor" class="modal" >
+    <div class="modal-content">
+      <h4>Editar sabor</h4>
+      <div class="row">
+        <div class="input-field col s12">
+          <input placeholder="Descrição" id="descricao" [(ngModel)]="selectedSabor.descricao" type="text" class="validate">
+          <label for="descricao">Descrição</label>
+        </div>
+        <div class="row">
+            <div class="col s12">
+              <input type="checkbox" id="editDisponivel" [(ngModel)]="selectedSabor.disponivel" >
+              <label for="editDisponivel">Disponível?</label>
+            </div>
+          </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" (click)="onSubmitEdit()" class=" modal-action modal-close waves-effect waves-green btn-flat">Salvar</a>
+    </div>
+</div>
