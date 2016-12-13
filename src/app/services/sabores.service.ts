@@ -20,4 +20,8 @@ export class SaboresService {
   editSabor(sabor):firebase.Promise<any> {
     return this.fireService.updateSabor(sabor);
   }
+
+  removeSabor(sabor: any): firebase.Promise<any>{
+    return this.fireService.removeSabor(sabor);
+  }
 }

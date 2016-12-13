@@ -15,9 +15,14 @@ export class FireService {
   saveSabor(sabor: any):firebase.Promise<any> {
     return this.af.database.list('sabores').push(sabor)
   }
+  
+  removeSabor(sabor: any): firebase.Promise<any>{
+    return this.af.database.list('sabores').remove(sabor.$key);
+  }
 
   updateSabor(sabor: any):firebase.Promise<any>{
     let key = sabor.$key;
-    return this.af.database.list('sabores').update(key, {descricao: sabor.descricao, disponivel: sabor.disponivel});
+    console.log('sabor fire: ',sabor);
+    return this.af.database.list('sabores').update(key, {descricao: sabor.descricao, disponivel: sabor.disponivel, ingredientes: sabor.ingredientes});
   }
 }
