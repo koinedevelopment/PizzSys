@@ -1,5 +1,5 @@
 import { SaboresService } from './../services/sabores.service';
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 
 declare var jQuery:any;
@@ -11,29 +11,36 @@ declare var jQuery:any;
 })
 export class SaboresComponent implements OnInit {
 
+  @ViewChild('imagemSabor')
+  inputView: any;
+
   sabores: any;
   formSabores: FormGroup;
   formEdicao: FormGroup;
   selectedSabor: any = {
     descricao: '',
-    disponivel: false
+    disponivel: true
   };
   ingredientes: Array<any> = [];
-  constructor(private formBuild: FormBuilder, private saboreService: SaboresService, private eleRef: ElementRef) { }
+  inputImagem: any;
+  imagemSelecionada: any;
+  imagemEditSelecionada: any;
+
+  constructor(private formBuild: FormBuilder, private saborService: SaboresService, private eleRef: ElementRef) { }
 
   ngOnInit() {
     this.formSabores = this.formBuild.group({
       'descricao': ['', Validators.required],
       'tipo': ['',Validators.required],
-      'disponivel': false
+      'disponivel': true
     });
 
     this.formEdicao = this.formBuild.group({
       'descricao': ['', Validators.required],
-      'disponivel': false
+      'disponivel': true
     });
 
-    this.saboreService.getSabores()
+    this.saborService.getSabores()
       .subscribe(sabores => {
         this.sabores = sabores
       });
@@ -49,7 +56,7 @@ export class SaboresComponent implements OnInit {
 
   onSelectSabor(sabor){
     this.selectedSabor = sabor;
-    console.log(this.selectedSabor);
+    this.selectedSabor.imageURL ? this.imagemEditSelecionada = this.selectedSabor.imageURL : this.imagemEditSelecionada = null; 
     let chips: Array<any> = [];
     if(this.selectedSabor.ingredientes)
       this.selectedSabor.ingredientes.map(ingrediente => {
@@ -72,6 +79,49 @@ export class SaboresComponent implements OnInit {
     this.selectedSabor.disponivel = !this.selectedSabor.disponivel;
   }
 
+  onChange(event){
+    let fileReader = new FileReader();
+    this.inputImagem = event.srcElement.files[0];
+
+    if(this.inputImagem.type !== "image/png" && this.inputImagem.type !== "image/jpeg"){
+      this.resetInputImage();
+      alert('Informe um arquivo do tipo JPG ou PNG');
+    }
+    else if(this.inputImagem.size > 100000){
+      alert('Informe um arquivo com tamanho até 100KB')
+      this.resetInputImage();
+    }
+    else{
+      fileReader.onload = () => {
+        this.imagemSelecionada = fileReader.result;
+      }
+
+      fileReader.readAsDataURL(this.inputImagem);
+    }
+  }
+
+  onChangeEdit(event){
+    let fileReader = new FileReader();
+    this.inputImagem = event.srcElement.files[0];
+
+    if(this.inputImagem.type !== "image/png" && this.inputImagem.type !== "image/jpeg"){
+      this.resetInputImage(true);
+      alert('Informe um arquivo do tipo JPG ou PNG');
+    }
+    else if(this.inputImagem.size > 100000){
+      this.resetInputImage(true);
+      alert('Informe um arquivo com tamanho até 100KB')
+    }
+    else{
+      fileReader.onload = () => {
+        this.imagemEditSelecionada = fileReader.result;
+      }
+
+      fileReader.readAsDataURL(this.inputImagem);
+    }
+  }
+  
+
   returnIngredientes(classeChips: string){
     let tags: Array<any> = jQuery(classeChips).material_chip('data');
     console.log('tags: ',tags);
@@ -89,9 +139,10 @@ export class SaboresComponent implements OnInit {
       let ingredientes = this.returnIngredientes('.chips-selecionado');
 
       this.selectedSabor['ingredientes'] = ingredientes;
-      this.saboreService.editSabor(this.selectedSabor)
+      this.saborService.editSabor(this.selectedSabor, this.inputImagem)
         .then(() => {
           document.getElementById('closeModal').click();
+          this.resetInputImage();
           alert('Dados atualizados com sucesso');
         })
     }
@@ -101,9 +152,12 @@ export class SaboresComponent implements OnInit {
   onRemoveSabor(){
     let confirmbox = confirm('Tem certeza que deseja excluir o sabor selecionado?')
     if (confirmbox){
-      this.saboreService.removeSabor(this.selectedSabor)
+      document.getElementById('closeModal').click();
+      this.saborService.removeSabor(this.selectedSabor)
         .then(() => {
+          document.getElementById('closeModal').click();
           alert('Sabor excluído sucesso');
+          jQuery('#modalSabor').modal('close');
         })
     }
   }
@@ -115,11 +169,27 @@ export class SaboresComponent implements OnInit {
     
     sabor['ingredientes'] = ingredientes;
     console.log(sabor);
-    this.saboreService.saveSabor(sabor)
-      .then(() =>{
+    this.saborService.saveSabor(sabor, this.inputImagem)
+      .then( snap =>{
         alert('Sabor cadastrado com sucesso');
         jQuery('.chips-ingredientes').material_chip({data: []});
+        this.imagemSelecionada = "";
         this.formSabores.reset();
+        this.resetInputImage();
       });
+      
   }
+
+  resetInputImage(edit?:boolean){
+    if(edit){
+      this.inputView.nativeElement.value = "";
+      this.inputImagem = null;  
+    } 
+    else{
+      this.inputView.nativeElement.value = "";
+      this.inputImagem = null;
+      this.imagemSelecionada = null;
+    }       
+  }
+  
 }

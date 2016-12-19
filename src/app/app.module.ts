@@ -13,6 +13,7 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { SaboresComponent } from './sabores/sabores.component';
 import { IngredientesComponent } from './ingredientes/ingredientes.component';
+import { LoginComponent } from './login/login.component';
 
 
 const config = {
@@ -28,7 +29,8 @@ const config = {
     AppComponent,
     HeaderComponent,
     SaboresComponent,
-    IngredientesComponent
+    IngredientesComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

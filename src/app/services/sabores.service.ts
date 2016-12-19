@@ -13,12 +13,12 @@ export class SaboresService {
     return this.fireService.getSabores()
   }
 
-  saveSabor(sabor: any):firebase.Promise<any> {
-    return this.fireService.saveSabor(sabor);
+  saveSabor(sabor: any, imagem: any):firebase.Promise<any> {
+    return this.fireService.saveSabor(sabor, imagem);
   }
 
-  editSabor(sabor):firebase.Promise<any> {
-    return this.fireService.updateSabor(sabor);
+  editSabor(sabor, imagem?):firebase.Promise<any> {
+    return this.fireService.updateSabor(sabor, imagem);
   }
 
   removeSabor(sabor: any): firebase.Promise<any>{
