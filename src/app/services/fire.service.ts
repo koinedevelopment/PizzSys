@@ -27,7 +27,6 @@ export class FireService {
     else{
        return this.af.database.list('sabores/').push(sabor);
      }
-
   }
   
   removeSabor(sabor: any): firebase.Promise<any>{
