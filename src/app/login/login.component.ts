@@ -1,4 +1,8 @@
+import { AuthService } from './../services/auth.service';
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+declare var jQuery: any;
+
 
 @Component({
   selector: 'app-login',
@@ -6,10 +10,70 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  formLogin: FormGroup;
+  formSignup: FormGroup;
+  constructor(public formBuilder: FormBuilder, public authService: AuthService) {
+    this.formLogin = this.formBuilder.group({
+      'email': ['', Validators.required],
+      'password': ['', Validators.required]
+    })
 
-  constructor() { }
-
-  ngOnInit() {
+    this.formSignup = this.formBuilder.group({
+      'email': ['', Validators.required],
+      'password': ['', Validators.required],
+      'password_confirm': ['', Validators.required]
+    })  
   }
 
+  ngOnInit() {
+    jQuery('.modal').modal();
+  }
+
+  onSubmitLogin(){
+    let user = {
+      email: this.formLogin.value.email,
+      password: this.formLogin.value.password
+    };
+
+    this.authService.login(user)
+      .then(() => {
+        alert('Usuário logado com sucesso.');
+        this.formLogin.reset();
+      })
+      .catch(err => {
+        if(err['code'] == "auth/wrong-password"){
+          alert('Senha incorreta.');
+          this.formLogin.controls['password'].reset();
+        }
+
+        else if(err['code'] == "auth/user-not-found"){
+          alert('Usuário não cadastrado.');
+          this.formLogin.reset();
+        }
+
+        else if(err['code'] == "auth/invalid-email"){
+          alert('Digite um email válido.');
+          this.formLogin.reset();
+        }
+        console.log(err);
+      })
+  }
+  
+  onSubmitSignup(){
+    console.log('onsubmitlogin'); 
+    if(this.formSignup.value.password != this.formSignup.value.password_confirm){
+      alert('As senhas não coincidem.');
+      this.formSignup.controls['password_confirm'].reset();
+    }
+    else{
+      let signup = {
+        email: this.formSignup.value.email,
+        password: this.formSignup.value.password
+      }
+      this.authService.signup(signup)
+        .then(() => {
+          alert('Usuário criado com sucesso.');
+        })
+    }  
+  }
 }

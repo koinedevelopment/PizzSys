@@ -1,10 +1,11 @@
+import { AuthService } from './services/auth.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { MaterialModule } from '@angular/material';
 import { routing } from './app.routing';
-import { AngularFireModule } from 'angularfire2';
+import { AngularFireModule, AuthMethods, AuthProviders } from 'angularfire2';
 import { FireService } from './services/fire.service';
 import { SaboresService } from './services/sabores.service' 
 import 'hammerjs';
@@ -24,6 +25,11 @@ const config = {
   messagingSenderId: "229381592184"
 };
 
+const myFirebaseAuthConfig = {
+  provider: AuthProviders.Password,
+  method: AuthMethods.Password
+}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,11 +45,12 @@ const config = {
     MaterialModule.forRoot(),
     routing,
     ReactiveFormsModule,
-    AngularFireModule.initializeApp(config)
+    AngularFireModule.initializeApp(config, myFirebaseAuthConfig)
   ],
   providers: [
     SaboresService,
-    FireService
+    FireService,
+    AuthService
   ],
   bootstrap: [AppComponent]
 })

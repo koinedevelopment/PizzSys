@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as firebase from 'firebase';
-import { AngularFire } from 'angularfire2';
+import { AngularFire, AuthMethods, AuthProviders } from 'angularfire2';
 import { Observable } from 'rxjs/Rx';
 
 @Injectable()
@@ -44,5 +44,20 @@ export class FireService {
     }
     else
       return this.af.database.list('sabores').update(key, {descricao: sabor.descricao, disponivel: sabor.disponivel, ingredientes: sabor.ingredientes});
+  }
+
+  signup(user):firebase.Promise<any> {
+    return this.af.auth.createUser({email: user.email, password: user.password})
+      .then(data => {
+        return firebase.database().ref('users/'+data.uid).push({
+          email: data.auth.email,
+          ativo: false
+        });
+      });
+  }
+
+  signin(user):firebase.Promise<any>{
+    console.log(user)
+    return this.af.auth.login({email: user.email, password: user.password}, { provider: AuthProviders.Password, method: AuthMethods.Password})
   }
 }
