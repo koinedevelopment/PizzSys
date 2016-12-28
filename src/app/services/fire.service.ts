@@ -12,20 +12,32 @@ export class FireService {
   constructor(private af: AngularFire){ 
   }
 
-  getSabores(): Observable<any>{
-    return this.af.database.list('sabores');
+  getSabores(pizzaria:string): Observable<any>{
+    return this.af.database.list('saboresPorPizzaria/'+pizzaria+'/sabores');
   }
 
-  saveSabor(sabor: any, imagem?: any):firebase.Promise<any> {
+  getPizzaria():Promise<any> {
+    let uid = firebase.auth().currentUser.uid;
+    let promise: Promise<string>;
+    promise = new Promise((resolve, reject) => {
+      firebase.database().ref('usuarioPorPizzaria/'+uid).once('value')
+        .then(snap => {
+          resolve(snap.val().keyPizzaria)
+        })
+    });
+    return promise;
+  }
+
+  saveSabor(sabor: any, pizzaria:string, imagem?: any):firebase.Promise<any> {
     if(imagem){
-      let key = this.af.database.list('sabores/').push(sabor).key;
+      let key = this.af.database.list('saboresPorPizzaria/'+pizzaria+'/sabores/').push(sabor).key;
       return firebase.storage().ref('sabores/'+key).put(imagem)
         .then(snap => {
           return firebase.database().ref('sabores/'+key).update({imageURL: snap.downloadURL})
         })
     }
     else{
-       return this.af.database.list('sabores/').push(sabor);
+       return this.af.database.list('saboresPorPizzaria/'+pizzaria+'/sabores/').push(sabor);
      }
   }
   
@@ -33,30 +45,56 @@ export class FireService {
     return this.af.database.list('sabores').remove(sabor.$key);
   }
 
-  updateSabor(sabor: any, imagem?:any):firebase.Promise<any>{
+  updateSabor(sabor: any, pizzaria:string, imagem?:any):firebase.Promise<any>{
     let key = sabor.$key;
     if(imagem){
       return firebase.storage().ref('sabores/'+key).put(imagem)
         .then(snap => {
-          return this.af.database.list('sabores').update(key, {descricao: sabor.descricao, disponivel: sabor.disponivel, ingredientes: sabor.ingredientes, imageURL: snap.downloadURL});
+          return this.af.database.list('saboresPorPizzaria/'+pizzaria+'/sabores/').update(key, {descricao: sabor.descricao, disponivel: sabor.disponivel, ingredientes: sabor.ingredientes, imageURL: snap.downloadURL});
         })
     }
     else
-      return this.af.database.list('sabores').update(key, {descricao: sabor.descricao, disponivel: sabor.disponivel, ingredientes: sabor.ingredientes});
+      return this.af.database.list('saboresPorPizzaria/'+pizzaria+'/sabores/').update(key, {descricao: sabor.descricao, disponivel: sabor.disponivel, ingredientes: sabor.ingredientes});
   }
 
-  signup(user):firebase.Promise<any> {
-    return this.af.auth.createUser({email: user.email, password: user.password})
-      .then(data => {
-        return firebase.database().ref('users/'+data.uid).push({
-          email: data.auth.email,
-          ativo: false
+  signup(user):Promise<any> {
+    let promise: Promise<any>;
+    let uid: string;
+    let keyPizzaria: string; 
+    promise = new Promise((resolve, reject) => {
+      this.af.auth.createUser({email: user.email, password: user.password})
+        .then(data => {
+          uid = data.uid;
+          let key = firebase.database().ref('pizzarias/').push({
+            nome: user.pizzaria,
+            users: {
+              admin: data.uid
+            },
+            email: data.auth.email,
+            ativo: false,
+            endereco: '',
+            descricao: ''
+          })
+            .then(data => {
+                firebase.database().ref('usuarioPorPizzaria/'+uid).set({
+                  keyPizzaria: data.key
+                })
+                  .then(data => {
+                    resolve(true);
+                  })
+            })
         });
-      });
+    })
+    
+    return promise;
   }
 
   signin(user):firebase.Promise<any>{
     console.log(user)
     return this.af.auth.login({email: user.email, password: user.password}, { provider: AuthProviders.Password, method: AuthMethods.Password})
+  }
+
+  logout(){
+    this.af.auth.logout();
   }
 }

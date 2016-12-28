@@ -1,6 +1,8 @@
+import { Router } from '@angular/router';
 import { AuthService } from './../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+
 declare var jQuery: any;
 
 
@@ -12,7 +14,7 @@ declare var jQuery: any;
 export class LoginComponent implements OnInit {
   formLogin: FormGroup;
   formSignup: FormGroup;
-  constructor(public formBuilder: FormBuilder, public authService: AuthService) {
+  constructor(public formBuilder: FormBuilder, public authService: AuthService, public router: Router) {
     this.formLogin = this.formBuilder.group({
       'email': ['', Validators.required],
       'password': ['', Validators.required]
@@ -20,6 +22,7 @@ export class LoginComponent implements OnInit {
 
     this.formSignup = this.formBuilder.group({
       'email': ['', Validators.required],
+      'pizzaria': ['', Validators.required],
       'password': ['', Validators.required],
       'password_confirm': ['', Validators.required]
     })  
@@ -38,6 +41,7 @@ export class LoginComponent implements OnInit {
     this.authService.login(user)
       .then(() => {
         alert('Usuário logado com sucesso.');
+        this.router.navigate(['sabores']);
         this.formLogin.reset();
       })
       .catch(err => {
@@ -68,11 +72,13 @@ export class LoginComponent implements OnInit {
     else{
       let signup = {
         email: this.formSignup.value.email,
+        pizzaria: this.formSignup.value.pizzaria,
         password: this.formSignup.value.password
       }
       this.authService.signup(signup)
         .then(() => {
           alert('Usuário criado com sucesso.');
+          this.router.navigate(['sabores']);
         })
     }  
   }

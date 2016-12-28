@@ -9,19 +9,23 @@ export class SaboresService {
 
   }
 
-  getSabores():Observable<any> {
-    return this.fireService.getSabores()
+  getSabores(pizzaria:string):Observable<any> {
+    return this.fireService.getSabores(pizzaria)
   }
 
-  saveSabor(sabor: any, imagem: any):firebase.Promise<any> {
-    return this.fireService.saveSabor(sabor, imagem);
+  saveSabor(sabor: any, pizzaria:string, imagem: any):firebase.Promise<any> {
+    return this.fireService.saveSabor(sabor,pizzaria, imagem);
   }
 
-  editSabor(sabor, imagem?):firebase.Promise<any> {
-    return this.fireService.updateSabor(sabor, imagem);
+  editSabor(sabor, pizzaria, imagem?):firebase.Promise<any> {
+    return this.fireService.updateSabor(sabor, pizzaria, imagem);
   }
 
   removeSabor(sabor: any): firebase.Promise<any>{
     return this.fireService.removeSabor(sabor);
+  }
+
+  getPizzaria(){
+    return this.fireService.getPizzaria();
   }
 }

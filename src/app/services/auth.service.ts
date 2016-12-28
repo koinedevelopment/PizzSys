@@ -14,4 +14,8 @@ export class AuthService {
   login(user):firebase.Promise<any> {
     return this.fireService.signin(user);
   }
+
+  logout(){
+    this.fireService.logout();
+  }
 }

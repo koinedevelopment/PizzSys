@@ -13,7 +13,7 @@ export class SaboresComponent implements OnInit {
 
   @ViewChild('imagemSabor')
   inputView: any;
-
+  pizzaria: any;
   sabores: any;
   formSabores: FormGroup;
   formEdicao: FormGroup;
@@ -40,11 +40,6 @@ export class SaboresComponent implements OnInit {
       'disponivel': true
     });
 
-    this.saborService.getSabores()
-      .subscribe(sabores => {
-        this.sabores = sabores
-      });
-
       jQuery('.modal').modal();
       jQuery('ul.tabs').tabs();
       jQuery('.chips').material_chip();
@@ -52,6 +47,16 @@ export class SaboresComponent implements OnInit {
         placeholder: 'Adicione os ingredientes',
         secondaryPlaceholder: '+Ingrediente',
       });
+
+      this.saborService.getPizzaria()
+        .then(pizzaria => {
+          this.pizzaria = pizzaria;
+
+          this.saborService.getSabores(pizzaria)
+            .subscribe(sabores => {
+              this.sabores = sabores
+            });
+        })
   }
 
   onSelectSabor(sabor){
@@ -139,9 +144,9 @@ export class SaboresComponent implements OnInit {
       let ingredientes = this.returnIngredientes('.chips-selecionado');
 
       this.selectedSabor['ingredientes'] = ingredientes;
-      this.saborService.editSabor(this.selectedSabor, this.inputImagem)
+      this.saborService.editSabor(this.selectedSabor, this.pizzaria, this.inputImagem)
         .then(() => {
-          document.getElementById('closeModal').click();
+          jQuery('#modalSabor').modal('close');
           this.resetInputImage();
           alert('Dados atualizados com sucesso');
         })
@@ -169,7 +174,7 @@ export class SaboresComponent implements OnInit {
     
     sabor['ingredientes'] = ingredientes;
     console.log(sabor);
-    this.saborService.saveSabor(sabor, this.inputImagem)
+    this.saborService.saveSabor(sabor,this.pizzaria, this.inputImagem)
       .then( snap =>{
         alert('Sabor cadastrado com sucesso');
         jQuery('.chips-ingredientes').material_chip({data: []});
