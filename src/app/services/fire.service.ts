@@ -73,6 +73,11 @@ export class FireService {
     else
       return this.af.database.list('saboresPorPizzaria/'+pizzaria+'/sabores/').update(key, {descricao: sabor.descricao, disponivel: sabor.disponivel, tipo_disponivel: sabor.tipo_disponivel, ingredientes: sabor.ingredientes});
   }
+  
+  updateDisponibilidade(pizzariaKey, saborKey: string, tipo_disponivel:string, disponivel: boolean):firebase.Promise<any> {
+    
+    return this.af.database.list('saboresPorPizzaria/'+pizzariaKey+'/sabores/').update(saborKey, {disponivel: disponivel, tipo_disponivel: tipo_disponivel});
+  }
 
   signup(user):Promise<any> {
     let promise: Promise<any>;

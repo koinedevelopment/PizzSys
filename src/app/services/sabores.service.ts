@@ -30,4 +30,9 @@ export class SaboresService {
     return this.fireService.removeSabor(sabor, pizzaria);
   }
 
+  updateDisponibilidade(pizzariaKey: string, saborKey: string, saborTipo: string, disponivel: boolean):firebase.Promise<any>{
+    let tipo_disponivel  = disponivel.toString().concat('_',saborTipo);
+    return this.fireService.updateDisponibilidade(pizzariaKey, saborKey, tipo_disponivel, disponivel);
+  }
+
 }

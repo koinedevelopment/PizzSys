@@ -1,12 +1,13 @@
 <div class="row">
-  <div class="col s12 m8 offset-m2">
+  <div class="col s12 m10 offset-m1">
     <ul class="tabs" style="overflow:hidden" >
-      <li class="tab col s6"><a href="#cadastro">Cadastro</a></li>
-      <li class="tab col s6"><a class="active" href="#lista">Lista</a></li>
+      <li class="tab col s4"><a href="#tab_cadastro">Cadastro</a></li>
+      <li class="tab col s4"><a class="active" href="#tab_lista">Lista</a></li>
+      <li class="tab col s4"><a class="active" href="#tab_disponivel">Sabores disponíveis</a></li>
     </ul>
   </div>
 
-  <div id="cadastro" class="col s12">
+  <div id="tab_cadastro" class="col s12">
     <div class="row">
       <div class="col s12 m8 offset-m2 l6 offset-l3">
         <br>
@@ -66,7 +67,7 @@
     </div>
   </div>
 
-  <div id="lista" class="col s12">
+  <div id="tab_lista" class="col s12">
     <div class="row">
       <br>
       <h4 class="center-align" >Sabores cadastrados</h4>
@@ -81,8 +82,32 @@
         </div>
       </div>
     </div>
-    
   </div>
+
+  <div id="tab_disponivel" class="col s12">
+    <div class="row">
+      <br>
+      <h4 class="center-align" >Sabores cadastrados</h4>
+      <div class="col s12 m8 offset-m2">
+        <ul class="collection">
+          <li *ngFor="let sabor of sabores" (click)="onSelectSabor(sabor)" class="collection-item">{{sabor.descricao}}
+            <div class="secondary-content">
+              <div class="switch" id="ativo" >
+                <label>Disponível?</label>
+                <label>
+                  Não
+                  <input type="checkbox" [checked]="sabor.disponivel" (change)="onChangeDisponibilidade(sabor)" >
+                  <span class="lever"></span>
+                  Sim
+                </label>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <div id="modalSabor" class="modal modal-fixed-footer" >
@@ -91,7 +116,7 @@
       <div class="row">
         <div class="input-field col s12">
           <input placeholder="Descrição" id="descricao" [(ngModel)]="selectedSabor.descricao" type="text" class="validate">
-          <label for="descricao">Descrição</label>
+          <label for="descricao" class="active">Descrição</label>
         </div>
         <div class="row">
           <div class="col s12">

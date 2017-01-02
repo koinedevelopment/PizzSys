@@ -134,6 +134,15 @@ export class SaboresComponent implements OnInit {
     }
   }
   
+  onChangeDisponibilidade(sabor){
+    this.saborService.updateDisponibilidade(this.pizzaria, sabor.$key, sabor.tipo, !sabor.disponivel)
+      .then(_ => {
+        this.toast('Sabor atualizado!');
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
 
   returnIngredientes(classeChips: string){
     let tags: Array<any> = jQuery(classeChips).material_chip('data');
