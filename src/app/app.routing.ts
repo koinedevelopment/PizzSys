@@ -1,3 +1,5 @@
+import { MesasComponent } from './mesas/mesas.component';
+import { PerfilComponent } from './perfil/perfil.component';
 import { LoginComponent } from './login/login.component';
 import { IngredientesComponent } from './ingredientes/ingredientes.component';
 import { SaboresComponent } from './sabores/sabores.component';
@@ -8,7 +10,9 @@ import { Routes, RouterModule } from '@angular/router';
 const appRoutes : Routes = [
     { path: '', component: LoginComponent },
     { path: 'sabores', component: SaboresComponent },
-    { path: 'ingredientes', component: IngredientesComponent }
+    { path: 'ingredientes', component: IngredientesComponent },
+    { path: 'perfil', component: PerfilComponent },
+    { path: 'mesas', component: MesasComponent }
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(appRoutes);

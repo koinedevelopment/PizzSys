@@ -1,3 +1,4 @@
+import { AuthService } from './../services/auth.service';
 import { SaboresService } from './../services/sabores.service';
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators} from '@angular/forms';
@@ -26,7 +27,7 @@ export class SaboresComponent implements OnInit {
   imagemSelecionada: any;
   imagemEditSelecionada: any;
 
-  constructor(private formBuild: FormBuilder, private saborService: SaboresService, private eleRef: ElementRef) { }
+  constructor(private formBuild: FormBuilder, private saborService: SaboresService, private authService: AuthService, private eleRef: ElementRef) { }
 
   ngOnInit() {
     this.formSabores = this.formBuild.group({
@@ -48,7 +49,7 @@ export class SaboresComponent implements OnInit {
         secondaryPlaceholder: '+Ingrediente',
       });
 
-      this.saborService.getPizzaria()
+      this.authService.getPizzariaKey()
         .then(pizzaria => {
           this.pizzaria = pizzaria;
 
@@ -157,10 +158,8 @@ export class SaboresComponent implements OnInit {
   onRemoveSabor(){
     let confirmbox = confirm('Tem certeza que deseja excluir o sabor selecionado?')
     if (confirmbox){
-      document.getElementById('closeModal').click();
-      this.saborService.removeSabor(this.selectedSabor)
+      this.saborService.removeSabor(this.selectedSabor, this.pizzaria)
         .then(() => {
-          document.getElementById('closeModal').click();
           alert('Sabor excluído sucesso');
           jQuery('#modalSabor').modal('close');
         })

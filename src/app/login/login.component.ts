@@ -59,6 +59,10 @@ export class LoginComponent implements OnInit {
           alert('Digite um email válido.');
           this.formLogin.reset();
         }
+        else if(err['code'] == "auth/email-already-in-use"){
+          alert('O email digitado já foi cadastrado em nossa base de dados. Por favor, utilize outro email ou insira a senha correta.');
+          this.formLogin.reset();
+        }
         console.log(err);
       })
   }
@@ -79,6 +83,12 @@ export class LoginComponent implements OnInit {
         .then(() => {
           alert('Usuário criado com sucesso.');
           this.router.navigate(['sabores']);
+        })
+        .catch(err => {
+          if(err['code'] == "auth/email-already-in-use"){
+            alert('O email digitado já foi cadastrado em nossa base de dados. Por favor, utilize outro email ou insira a senha correta.');
+            this.formSignup.reset();
+          }
         })
     }  
   }

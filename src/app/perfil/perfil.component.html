@@ -1,0 +1,56 @@
+<div class="row">
+  <div class="col s12 m8 offset-m2 l6 offset-l3">
+
+  </div>
+</div>
+
+<div class="row">
+  <div class="col s12 m8 offset-m2 l6 offset-l3">
+    <h4 class="center-align" >Perfil</h4>
+    <form [formGroup]="formPerfil" (ngSubmit)="onSubmitPerfil()" >
+      <div class="row">
+        <div class="col s12 input-field">
+          <input type="text" id="nome" class="validate" formControlName="nome" >
+          <label for="nome">Nome da pizzaria</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12 input-field">
+          <input type="text" id="email" class="validate" formControlName="email" >
+          <label for="email">Email</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12 input-field">
+          <input type="text" id="endereco" class="validate" formControlName="endereco" >
+          <label for="endereco">Endereço</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12 input-field">
+          <textarea type="text" id="descricao" class="materialize-textarea" formControlName="descricao" ></textarea>
+          <label for="descricao">Descrição</label>
+        </div>
+      </div>
+      <div class="switch" id="ativo" >
+        Perfil ativo?<br>
+        <label>
+          Não
+          <input type="checkbox" formControlName="ativo">
+          <span class="lever"></span>
+          Sim
+        </label>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col s12">
+          <button [disabled]="formPerfil.invalid" type="submit" class="waves-effect col s12 waves-light btn">
+            <i class="material-icons right">send</i> Enviar
+          </button>
+        </div>
+      </div>
+    </form>
+  
+  
+  </div>
+</div>

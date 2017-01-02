@@ -21,11 +21,8 @@ export class SaboresService {
     return this.fireService.updateSabor(sabor, pizzaria, imagem);
   }
 
-  removeSabor(sabor: any): firebase.Promise<any>{
-    return this.fireService.removeSabor(sabor);
+  removeSabor(sabor: any, pizzaria:string): firebase.Promise<any>{
+    return this.fireService.removeSabor(sabor, pizzaria);
   }
 
-  getPizzaria(){
-    return this.fireService.getPizzaria();
-  }
 }

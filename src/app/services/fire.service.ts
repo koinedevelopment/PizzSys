@@ -16,7 +16,7 @@ export class FireService {
     return this.af.database.list('saboresPorPizzaria/'+pizzaria+'/sabores');
   }
 
-  getPizzaria():Promise<any> {
+  getPizzariaKey():Promise<any> {
     let uid = firebase.auth().currentUser.uid;
     let promise: Promise<string>;
     promise = new Promise((resolve, reject) => {
@@ -28,12 +28,24 @@ export class FireService {
     return promise;
   }
 
+  getPizzaria(key):Promise<any> {
+    let promise: Promise<any>;
+    promise = new Promise((resolve, reject) => {
+      firebase.database().ref('pizzarias/'+key).once('value')
+        .then(snap => {
+          resolve(snap.val());
+        });
+    });
+    
+    return promise;
+  }
+
   saveSabor(sabor: any, pizzaria:string, imagem?: any):firebase.Promise<any> {
     if(imagem){
       let key = this.af.database.list('saboresPorPizzaria/'+pizzaria+'/sabores/').push(sabor).key;
       return firebase.storage().ref('sabores/'+key).put(imagem)
         .then(snap => {
-          return firebase.database().ref('sabores/'+key).update({imageURL: snap.downloadURL})
+          return firebase.database().ref('saboresPorPizzaria/'+pizzaria+'/sabores/'+key).update({imageURL: snap.downloadURL})
         })
     }
     else{
@@ -41,8 +53,8 @@ export class FireService {
      }
   }
   
-  removeSabor(sabor: any): firebase.Promise<any>{
-    return this.af.database.list('sabores').remove(sabor.$key);
+  removeSabor(sabor: any, pizzaria): firebase.Promise<any>{
+    return this.af.database.list('saboresPorPizzaria/'+pizzaria+'/sabores/').remove(sabor.$key);
   }
 
   updateSabor(sabor: any, pizzaria:string, imagem?:any):firebase.Promise<any>{
@@ -96,5 +108,15 @@ export class FireService {
 
   logout(){
     this.af.auth.logout();
+  }
+
+  saveMesa(mesa:any, pizzaria:string):firebase.Promise<any> {
+    return this.af.database.list('mesasPorPizzaria/'+pizzaria).push(mesa);
+  }
+
+  updatePerfil(perfil: any, pizzariaKey: string){
+    console.log(pizzariaKey);
+    console.log(perfil)
+    return this.af.database.list('pizzarias/').update(pizzariaKey,{ativo: perfil.ativo, descricao: perfil.descricao, email: perfil.email, endereco: perfil.endereco, nome: perfil.nome})
   }
 }

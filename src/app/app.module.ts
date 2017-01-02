@@ -1,3 +1,5 @@
+import { PerfilService } from './services/perfil.service';
+import { MesasService } from './services/mesas.service';
 import { AuthService } from './services/auth.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -15,6 +17,8 @@ import { HeaderComponent } from './header/header.component';
 import { SaboresComponent } from './sabores/sabores.component';
 import { IngredientesComponent } from './ingredientes/ingredientes.component';
 import { LoginComponent } from './login/login.component';
+import { PerfilComponent } from './perfil/perfil.component';
+import { MesasComponent } from './mesas/mesas.component';
 
 
 const config = {
@@ -36,7 +40,9 @@ const myFirebaseAuthConfig = {
     HeaderComponent,
     SaboresComponent,
     IngredientesComponent,
-    LoginComponent
+    LoginComponent,
+    PerfilComponent,
+    MesasComponent
   ],
   imports: [
     BrowserModule,
@@ -50,7 +56,9 @@ const myFirebaseAuthConfig = {
   providers: [
     SaboresService,
     FireService,
-    AuthService
+    AuthService,
+    MesasService,
+    PerfilService
   ],
   bootstrap: [AppComponent]
 })

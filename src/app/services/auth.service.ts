@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class AuthService {
+  pizzaria: string = null;
 
   constructor(public fireService: FireService) { }
 
@@ -16,6 +17,23 @@ export class AuthService {
   }
 
   logout(){
+    this.pizzaria = null;
     this.fireService.logout();
+
+  }
+
+  getPizzariaKey():Promise<string> {
+    let promise: Promise<string>;
+    promise = new Promise ((resolve, reject) => {
+      if(this.pizzaria)
+        resolve(this.pizzaria)
+      else
+        this.fireService.getPizzariaKey()
+          .then(pizzaria => {
+            this.pizzaria = pizzaria;
+            resolve(pizzaria);
+          });
+    });
+    return promise;
   }
 }
