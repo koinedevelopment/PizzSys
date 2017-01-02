@@ -1,16 +1,23 @@
+import { Observable } from 'rxjs/Rx';
 import { FireService } from './fire.service';
 import { Injectable } from '@angular/core';
 
 @Injectable()
 export class AuthService {
   pizzaria: string = null;
+  
+  constructor(public fireService: FireService) {
 
-  constructor(public fireService: FireService) { }
+  }
 
   signup(user):firebase.Promise<any> {
     return this.fireService.signup(user);
   
   }
+
+  isLoggedIn():Observable<any> {
+     return this.fireService.isLoggedIn();
+  }  
 
   login(user):firebase.Promise<any> {
     return this.fireService.signin(user);

@@ -26,7 +26,8 @@ export class SaboresComponent implements OnInit {
   inputImagem: any;
   imagemSelecionada: any;
   imagemEditSelecionada: any;
-
+  tipoSelecionado: string = "";
+  disponivel: boolean = false;
   constructor(private formBuild: FormBuilder, private saborService: SaboresService, private authService: AuthService, private eleRef: ElementRef) { }
 
   ngOnInit() {
@@ -58,6 +59,12 @@ export class SaboresComponent implements OnInit {
               this.sabores = sabores
             });
         })
+  }
+
+
+  consoleTipo(){
+    console.log(this.tipoSelecionado);
+    console.log('Disponível: ',this.disponivel);
   }
 
   onSelectSabor(sabor){

@@ -8,11 +8,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-
+  isAuth: boolean = false;
   constructor(public router: Router, public authService: AuthService) { }
 
   ngOnInit() {
-  
+    this.authService.isLoggedIn()
+      .subscribe(user => {
+        if(user){
+          this.isAuth = true;
+          this.router.navigate(['sabores']);
+        }
+        else{
+          this.isAuth = false;
+        }
+      })
   }
 
   logout(){

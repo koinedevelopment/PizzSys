@@ -12,6 +12,11 @@ export class FireService {
   constructor(private af: AngularFire){ 
   }
 
+  isLoggedIn(){
+    return this.af.auth.asObservable();
+      
+  }
+
   getSabores(pizzaria:string): Observable<any>{
     return this.af.database.list('saboresPorPizzaria/'+pizzaria+'/sabores');
   }

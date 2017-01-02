@@ -1,3 +1,4 @@
+import {CanActivateAuthService} from './services/canActivate';
 import { PerfilService } from './services/perfil.service';
 import { MesasService } from './services/mesas.service';
 import { AuthService } from './services/auth.service';
@@ -58,7 +59,8 @@ const myFirebaseAuthConfig = {
     FireService,
     AuthService,
     MesasService,
-    PerfilService
+    PerfilService,
+    CanActivateAuthService
   ],
   bootstrap: [AppComponent]
 })

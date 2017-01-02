@@ -41,7 +41,6 @@ export class LoginComponent implements OnInit {
     this.authService.login(user)
       .then(() => {
         alert('Usuário logado com sucesso.');
-        this.router.navigate(['sabores']);
         this.formLogin.reset();
       })
       .catch(err => {
