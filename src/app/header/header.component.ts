@@ -1,6 +1,7 @@
 import { AuthService } from './../services/auth.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+declare var jQuery: any;
 
 @Component({
   selector: 'app-header',
@@ -12,6 +13,9 @@ export class HeaderComponent implements OnInit {
   constructor(public router: Router, public authService: AuthService) { }
 
   ngOnInit() {
+
+    jQuery(".dropdown-button").dropdown({ativo: true});
+
     this.authService.isLoggedIn()
       .subscribe(user => {
         if(user){

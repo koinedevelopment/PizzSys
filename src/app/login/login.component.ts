@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
 declare var jQuery: any;
-
+declare var Materialize: any;
 
 @Component({
   selector: 'app-login',
@@ -32,6 +32,11 @@ export class LoginComponent implements OnInit {
     jQuery('.modal').modal();
   }
 
+  
+  toast(mensagem: string){
+    Materialize.toast(mensagem, 2000);
+  }
+
   onSubmitLogin(){
     let user = {
       email: this.formLogin.value.email,
@@ -40,7 +45,6 @@ export class LoginComponent implements OnInit {
 
     this.authService.login(user)
       .then(() => {
-        alert('Usuário logado com sucesso.');
         this.formLogin.reset();
       })
       .catch(err => {
@@ -80,7 +84,7 @@ export class LoginComponent implements OnInit {
       }
       this.authService.signup(signup)
         .then(() => {
-          alert('Usuário criado com sucesso.');
+          this.toast('Usuário criado com sucesso.');
           this.router.navigate(['sabores']);
         })
         .catch(err => {

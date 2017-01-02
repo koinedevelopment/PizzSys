@@ -4,6 +4,7 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 
 declare var jQuery:any;
+declare var Materialize:any;
 
 @Component({
   selector: 'app-sabores',
@@ -62,9 +63,8 @@ export class SaboresComponent implements OnInit {
   }
 
 
-  consoleTipo(){
-    console.log(this.tipoSelecionado);
-    console.log('Disponível: ',this.disponivel);
+  toast(mensagem: string){
+    Materialize.toast(mensagem, 2000);
   }
 
   onSelectSabor(sabor){
@@ -154,9 +154,9 @@ export class SaboresComponent implements OnInit {
       this.selectedSabor['ingredientes'] = ingredientes;
       this.saborService.editSabor(this.selectedSabor, this.pizzaria, this.inputImagem)
         .then(() => {
+          this.toast('Sabor salvo com sucesso.');
           jQuery('#modalSabor').modal('close');
           this.resetInputImage();
-          alert('Dados atualizados com sucesso');
         })
     }
       
@@ -167,7 +167,7 @@ export class SaboresComponent implements OnInit {
     if (confirmbox){
       this.saborService.removeSabor(this.selectedSabor, this.pizzaria)
         .then(() => {
-          alert('Sabor excluído sucesso');
+          this.toast('Sabor removido com sucesso.');
           jQuery('#modalSabor').modal('close');
         })
     }
@@ -182,7 +182,7 @@ export class SaboresComponent implements OnInit {
     console.log(sabor);
     this.saborService.saveSabor(sabor,this.pizzaria, this.inputImagem)
       .then( snap =>{
-        alert('Sabor cadastrado com sucesso');
+        this.toast('Sabor salvo com sucesso.');
         jQuery('.chips-ingredientes').material_chip({data: []});
         this.imagemSelecionada = "";
         this.formSabores.reset();

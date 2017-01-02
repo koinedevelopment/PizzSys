@@ -51,11 +51,14 @@ export class PerfilComponent implements OnInit {
       
   }
 
+  toast(mensagem: string){
+    Materialize.toast(mensagem,2000);
+  }
 
   onSubmitPerfil(){
     this.perfilService.updatePerfil(this.formPerfil.value,this.pizzariaKey)
       .then(() =>{
-        alert('Informações salvas com sucesso');
+        this.toast('Informações salvas com sucesso');
       })
       .catch(err => {
         alert('Algo deu errado. Tente novamente mais tarde');

@@ -67,11 +67,11 @@ export class FireService {
     if(imagem){
       return firebase.storage().ref('sabores/'+key).put(imagem)
         .then(snap => {
-          return this.af.database.list('saboresPorPizzaria/'+pizzaria+'/sabores/').update(key, {descricao: sabor.descricao, disponivel: sabor.disponivel, ingredientes: sabor.ingredientes, imageURL: snap.downloadURL});
+          return this.af.database.list('saboresPorPizzaria/'+pizzaria+'/sabores/').update(key, {descricao: sabor.descricao, disponivel: sabor.disponivel, ingredientes: sabor.ingredientes, tipo_disponivel: sabor.tipo_disponivel, imageURL: snap.downloadURL});
         })
     }
     else
-      return this.af.database.list('saboresPorPizzaria/'+pizzaria+'/sabores/').update(key, {descricao: sabor.descricao, disponivel: sabor.disponivel, ingredientes: sabor.ingredientes});
+      return this.af.database.list('saboresPorPizzaria/'+pizzaria+'/sabores/').update(key, {descricao: sabor.descricao, disponivel: sabor.disponivel, tipo_disponivel: sabor.tipo_disponivel, ingredientes: sabor.ingredientes});
   }
 
   signup(user):Promise<any> {

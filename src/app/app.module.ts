@@ -20,6 +20,7 @@ import { IngredientesComponent } from './ingredientes/ingredientes.component';
 import { LoginComponent } from './login/login.component';
 import { PerfilComponent } from './perfil/perfil.component';
 import { MesasComponent } from './mesas/mesas.component';
+import { SaboresCadastroComponent } from './sabores-cadastro/sabores-cadastro.component';
 
 
 const config = {
@@ -43,7 +44,8 @@ const myFirebaseAuthConfig = {
     IngredientesComponent,
     LoginComponent,
     PerfilComponent,
-    MesasComponent
+    MesasComponent,
+    SaboresCadastroComponent
   ],
   imports: [
     BrowserModule,

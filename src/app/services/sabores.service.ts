@@ -14,10 +14,15 @@ export class SaboresService {
   }
 
   saveSabor(sabor: any, pizzaria:string, imagem: any):firebase.Promise<any> {
+    
+    sabor['tipo_disponivel'] = sabor.disponivel.toString().concat('_',sabor.tipo);
+    console.log(sabor);
     return this.fireService.saveSabor(sabor,pizzaria, imagem);
   }
 
   editSabor(sabor, pizzaria, imagem?):firebase.Promise<any> {
+    sabor['tipo_disponivel'] = sabor.disponivel.toString().concat('_',sabor.tipo);
+    console.log(sabor);
     return this.fireService.updateSabor(sabor, pizzaria, imagem);
   }
 
