@@ -59,4 +59,21 @@ export class MesasComponent implements OnInit {
     this.selectedMesa = mesa;
     this.selectedMesa.qrCode = this.pizzariaKey + '|' + this.selectedMesa.$key;
   }
+
+  onRemoveMesa(){
+    if(confirm('Deseja excluir a mesa?'))
+      this.mesasService.removeMesa(this.pizzariaKey, this.selectedMesa.$key)
+        .then(_ => {          
+          this.toast('Mesa excluída com sucesso');
+          jQuery('#modalMesa').modal('close');
+        });
+  }
+
+  onSubmitEdit(){
+    this.mesasService.updateMesa(this.pizzariaKey, this.selectedMesa)
+      .then(_ => {
+        this.toast('Mesa alterada com sucesso.');
+      })
+      .catch(err => console.log(err));
+  }
 }

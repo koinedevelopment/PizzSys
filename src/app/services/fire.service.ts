@@ -128,6 +128,14 @@ export class FireService {
     return this.af.database.list('mesasPorPizzaria/'+pizzariaKey);
   }
 
+  removeMesa(pizzariaKey: string, mesaKey: string):firebase.Promise<any> {
+    return this.af.database.list('mesasPorPizzaria/'+pizzariaKey+'/'+mesaKey).remove()
+  }
+
+  updateMesa(pizzariaKey: string, mesa: any):firebase.Promise<any> {
+    return this.af.database.list('mesasPorPizzaria/'+pizzariaKey).update(mesa.$key, {identificacao: mesa.identificacao, observacoes: mesa.observacoes});
+  } 
+
   updatePerfil(perfil: any, pizzariaKey: string){
     console.log(pizzariaKey);
     console.log(perfil)

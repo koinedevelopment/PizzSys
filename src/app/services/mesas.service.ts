@@ -14,4 +14,12 @@ export class MesasService {
   getMesas(pizzariaKey: string):Observable<any> {
     return this.fireService.getMesas(pizzariaKey);
   }
+
+  removeMesa(pizzariaKey, mesaKey):firebase.Promise<any> {
+    return this.fireService.removeMesa(pizzariaKey, mesaKey);
+  }
+
+  updateMesa(pizzariaKey: string, mesa: any):firebase.Promise<any> {
+    return this.fireService.updateMesa(pizzariaKey, mesa);
+  }
 }
