@@ -10,7 +10,9 @@ import { MaterialModule } from '@angular/material';
 import { routing } from './app.routing';
 import { AngularFireModule, AuthMethods, AuthProviders } from 'angularfire2';
 import { FireService } from './services/fire.service';
-import { SaboresService } from './services/sabores.service' 
+import { SaboresService } from './services/sabores.service';
+import { QRCodeModule } from 'angular2-qrcode';
+ 
 import 'hammerjs';
   
 import { AppComponent } from './app.component';
@@ -52,7 +54,8 @@ const myFirebaseAuthConfig = {
     MaterialModule.forRoot(),
     routing,
     ReactiveFormsModule,
-    AngularFireModule.initializeApp(config, myFirebaseAuthConfig)
+    AngularFireModule.initializeApp(config, myFirebaseAuthConfig),
+    QRCodeModule
   ],
   providers: [
     SaboresService,

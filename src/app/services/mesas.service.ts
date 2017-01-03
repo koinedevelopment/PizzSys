@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Rx';
 import { FireService } from './fire.service';
 import { Injectable } from '@angular/core';
 
@@ -10,4 +11,7 @@ export class MesasService {
     return this.fireService.saveMesa(mesa, pizzaria);
   }
 
+  getMesas(pizzariaKey: string):Observable<any> {
+    return this.fireService.getMesas(pizzariaKey);
+  }
 }

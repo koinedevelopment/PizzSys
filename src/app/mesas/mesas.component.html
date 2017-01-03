@@ -25,4 +25,41 @@
       </div>
     </form>
   </div>
+  
+  <div class="col s12 m8 offset-m2 l6 offset-l3">
+    <div class="collection">
+      <a *ngFor="let mesa of mesas" href="#modalMesa" (click)="onSelectMesa(mesa)" class="collection-item">ID: {{mesa.identificacao}}
+        <p class="black-text"><b>Observações:</b> {{mesa.observacoes}}</p>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div id="modalMesa" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <h4>Dados da mesa</h4>
+      <div class="row">
+        <div class="input-field col s12">
+          <input placeholder="Identificação" id="identificacao" [(ngModel)]="selectedMesa.identificacao" type="text" class="validate">
+          <label for="identificacao" class="active">Identificação</label>
+        </div>
+        <div class="row">
+          <div class="col s12 input-field">
+            <textarea type="text" id="observacoes" class="materialize-textarea" [(ngModel)]="selectedMesa.observacoes" ></textarea>
+            <label for="observacoes" class="active">Observações</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col s12 center-align">
+            <qr-code alt="QR Code da mesa" [data]="selectedMesa.qrCode" [size]="150"></qr-code> 
+          </div>
+        </div>
+        <div class="row">
+          <a (click)="onRemoveMesa()" class="col s12 btn waves-effect waves-light red darken-1">Excluir mesa</a>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <a (click)="onSubmitEdit()" class=" modal-action modal-close waves-effect waves-green btn-flat">Salvar</a>
+    </div>
 </div>

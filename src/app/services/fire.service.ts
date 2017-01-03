@@ -124,6 +124,10 @@ export class FireService {
     return this.af.database.list('mesasPorPizzaria/'+pizzaria).push(mesa);
   }
 
+  getMesas(pizzariaKey: string):Observable<any> {
+    return this.af.database.list('mesasPorPizzaria/'+pizzariaKey);
+  }
+
   updatePerfil(perfil: any, pizzariaKey: string){
     console.log(pizzariaKey);
     console.log(perfil)
