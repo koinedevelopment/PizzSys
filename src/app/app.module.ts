@@ -16,7 +16,6 @@ import 'hammerjs';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { SaboresComponent } from './sabores/sabores.component';
-import { IngredientesComponent } from './ingredientes/ingredientes.component';
 import { LoginComponent } from './login/login.component';
 import { PerfilComponent } from './perfil/perfil.component';
 import { MesasComponent } from './mesas/mesas.component';
@@ -41,7 +40,6 @@ const myFirebaseAuthConfig = {
     AppComponent,
     HeaderComponent,
     SaboresComponent,
-    IngredientesComponent,
     LoginComponent,
     PerfilComponent,
     MesasComponent,
