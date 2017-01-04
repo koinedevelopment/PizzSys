@@ -7,12 +7,12 @@ export class MesasService {
 
   constructor(public fireService: FireService) { }
 
-  saveMesa(mesa: any, pizzaria: string){
-    return this.fireService.saveMesa(mesa, pizzaria);
+  saveMesa(mesa: any){
+    return this.fireService.saveMesa(mesa);
   }
 
-  getMesas(pizzariaKey: string):Observable<any> {
-    return this.fireService.getMesas(pizzariaKey);
+  getMesas():Observable<any> {
+    return this.fireService.getMesas();
   }
 
   removeMesa(pizzariaKey, mesaKey):firebase.Promise<any> {

@@ -1,4 +1,4 @@
-import { SaboresCadastroComponent } from './sabores-cadastro/sabores-cadastro.component';
+import { PedidosComponent } from './pedidos/pedidos.component';
 import { CanActivateAuthService } from './services/canActivate';
 import { MesasComponent } from './mesas/mesas.component';
 import { PerfilComponent } from './perfil/perfil.component';
@@ -11,9 +11,10 @@ import { Routes, RouterModule } from '@angular/router';
 const appRoutes : Routes = [
     { path: '', component: LoginComponent },
     { path: 'sabores', component: SaboresComponent, canActivate: [CanActivateAuthService] },
-    { path: 'sabores-cadastro', component: SaboresCadastroComponent, canActivate: [CanActivateAuthService] },
     { path: 'perfil', component: PerfilComponent, canActivate: [CanActivateAuthService]},
+    { path: 'pedidos', component: PedidosComponent, canActivate: [CanActivateAuthService]},
     { path: 'mesas', component: MesasComponent, canActivate: [CanActivateAuthService] }
+
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(appRoutes);

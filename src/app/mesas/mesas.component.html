@@ -5,7 +5,7 @@
     <form [formGroup]="formMesa" (ngSubmit)="onSubmitMesa()" >
       <div class="row">
         <div class="col s12 input-field">
-          <input type="text" id="identificacao" class="validate" formControlName="identificacao" >
+          <input type="text" id="numeroMesa" class="validate" formControlName="numeroMesa" >
           <label for="sabor">Identificação da mesa</label>
         </div>
       </div>
@@ -28,7 +28,7 @@
   
   <div class="col s12 m8 offset-m2 l6 offset-l3">
     <div class="collection">
-      <a *ngFor="let mesa of mesas" href="#modalMesa" (click)="onSelectMesa(mesa)" class="collection-item">ID: {{mesa.identificacao}}
+      <a *ngFor="let mesa of mesas" href="#modalMesa" (click)="onSelectMesa(mesa)" class="collection-item">ID: {{mesa.numeroMesa}}
         <p class="black-text"><b>Observações:</b> {{mesa.observacoes}}</p>
       </a>
     </div>
@@ -40,8 +40,8 @@
       <h4>Dados da mesa</h4>
       <div class="row">
         <div class="input-field col s12">
-          <input placeholder="Identificação" id="identificacao" [(ngModel)]="selectedMesa.identificacao" type="text" class="validate">
-          <label for="identificacao" class="active">Identificação</label>
+          <input placeholder="Identificação" id="numeroMesa" [(ngModel)]="selectedMesa.numeroMesa" type="text" class="validate">
+          <label for="numeroMesa" class="active">Identificação</label>
         </div>
         <div class="row">
           <div class="col s12 input-field">

@@ -10,11 +10,11 @@ declare var jQuery: any;
 })
 export class HeaderComponent implements OnInit {
   isAuth: boolean = false;
-  constructor(public router: Router, public authService: AuthService) { }
+  constructor(public router: Router, public authService: AuthService) {
+    jQuery(".dropdown-button").dropdown({hover: true});
+  }
 
   ngOnInit() {
-
-    jQuery(".dropdown-button").dropdown({ativo: true});
 
     this.authService.isLoggedIn()
       .subscribe(user => {

@@ -1,3 +1,4 @@
+import { PedidosService } from './services/pedidos.service';
 import {CanActivateAuthService} from './services/canActivate';
 import { PerfilService } from './services/perfil.service';
 import { MesasService } from './services/mesas.service';
@@ -21,7 +22,7 @@ import { SaboresComponent } from './sabores/sabores.component';
 import { LoginComponent } from './login/login.component';
 import { PerfilComponent } from './perfil/perfil.component';
 import { MesasComponent } from './mesas/mesas.component';
-import { SaboresCadastroComponent } from './sabores-cadastro/sabores-cadastro.component';
+import { PedidosComponent } from './pedidos/pedidos.component';
 
 
 const config = {
@@ -45,7 +46,7 @@ const myFirebaseAuthConfig = {
     LoginComponent,
     PerfilComponent,
     MesasComponent,
-    SaboresCadastroComponent
+    PedidosComponent
   ],
   imports: [
     BrowserModule,
@@ -63,7 +64,8 @@ const myFirebaseAuthConfig = {
     AuthService,
     MesasService,
     PerfilService,
-    CanActivateAuthService
+    CanActivateAuthService,
+    PedidosService
   ],
   bootstrap: [AppComponent]
 })

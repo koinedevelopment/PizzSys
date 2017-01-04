@@ -17,7 +17,7 @@ export class MesasComponent implements OnInit {
   pizzariaKey: string;
   mesas: any;
   selectedMesa:any = {
-    identificao: '',
+    numeroMesa: '',
     observacoes: '',
     qrCode: ''
   };
@@ -26,16 +26,12 @@ export class MesasComponent implements OnInit {
   }
 
   ngOnInit() {
-    
     this.authService.getPizzariaKey()
-      .then(pizzariaKey => {
-        this.pizzariaKey = pizzariaKey;
-        this.mesasService.getMesas(this.pizzariaKey)
-          .subscribe(mesas => this.mesas = mesas) 
-      });
-    
+      .then(pizzariaKey => this.pizzariaKey = pizzariaKey);
+    this.mesasService.getMesas()
+      .subscribe(mesas => this.mesas = mesas);
     this.formMesa = this.formBuilder.group({
-      'identificacao': ['', Validators.required],
+      'numeroMesa': ['', Validators.required],
       'observacoes': ''
     })
 
@@ -48,7 +44,7 @@ export class MesasComponent implements OnInit {
 
   onSubmitMesa(){
     console.log(this.formMesa)
-    this.mesasService.saveMesa(this.formMesa.value, this.pizzariaKey)
+    this.mesasService.saveMesa(this.formMesa.value)
       .then(() => {
         this.formMesa.reset();
         this.toast('Mesa cadastrada com sucesso.');
