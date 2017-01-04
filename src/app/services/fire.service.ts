@@ -32,9 +32,8 @@ export class FireService {
       
   }
 
-  getSabores(pizzaria:string): Observable<any>{
-    return this.af.database.list('saboresPorPizzaria/'+pizzaria+'/sabores');
-  }
+
+  //UTILITÁRIOS
 
   getPizzariaKey():Promise<any> {
     let uid = firebase.auth().currentUser.uid;
@@ -60,6 +59,12 @@ export class FireService {
     return promise;
   }
 
+
+  //SABORES
+  getSabores(pizzaria:string): Observable<any>{
+    return this.af.database.list('saboresPorPizzaria/'+pizzaria+'/sabores');
+  }
+
   saveSabor(sabor: any, pizzaria:string, imagem?: any):firebase.Promise<any> {
     if(imagem){
       let key = this.af.database.list('saboresPorPizzaria/'+pizzaria+'/sabores/').push(sabor).key;
@@ -69,8 +74,8 @@ export class FireService {
         })
     }
     else{
-       return this.af.database.list('saboresPorPizzaria/'+pizzaria+'/sabores/').push(sabor);
-     }
+      return this.af.database.list('saboresPorPizzaria/'+pizzaria+'/sabores/').push(sabor);
+    }
   }
   
   removeSabor(sabor: any, pizzaria): firebase.Promise<any>{
@@ -94,6 +99,7 @@ export class FireService {
     return this.af.database.list('saboresPorPizzaria/'+pizzariaKey+'/sabores/').update(saborKey, {disponivel: disponivel, tipo_disponivel: tipo_disponivel});
   }
 
+  //AUTENTICAÇÃO
   signup(user):Promise<any> {
     let promise: Promise<any>;
     let uid: string;
@@ -136,6 +142,8 @@ export class FireService {
     this.pizzaria = {};
   }
 
+
+  //MESAS
   saveMesa(mesa:any):firebase.Promise<any> {
     console.log(mesa);
     mesa['pizzariaNome'] = this.pizzaria.nome;
@@ -155,12 +163,16 @@ export class FireService {
     return this.af.database.list('mesasPorPizzaria/'+pizzariaKey).update(mesa.$key, {identificacao: mesa.identificacao, observacoes: mesa.observacoes});
   } 
 
+
+  //PERFIL
   updatePerfil(perfil: any, pizzariaKey: string){
     console.log(pizzariaKey);
     console.log(perfil)
     return this.af.database.list('pizzarias/').update(pizzariaKey,{ativo: perfil.ativo, descricao: perfil.descricao, email: perfil.email, endereco: perfil.endereco, nome: perfil.nome})
   }
 
+
+  //PEDIDOS
   getPedidosAbertos(pizzariaKey: string ):Observable<any> {
     return this.af.database.list('pedidosPorPizzaria/'+pizzariaKey+'/', {
       query: {
@@ -168,35 +180,6 @@ export class FireService {
         equalTo: false
       } 
     });
-  }
-
-  gerarPedido(pizzariaKey: string){  //função para teste. Apagar depois.
-    let hoje = new Date();
-    let timestampHoje: number = (new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate() ).getTime()) / 1000;
-    console.log('timestampHoje: ', timestampHoje);
-    let atendido: boolean = false;
-    let mesa;
-    for(let i = 0; i < 200; i++ ){
-      if(i % 2 == 0){
-        atendido = true;
-      }
-      else{
-        atendido = false;
-      }
-      if(i % 3 == 0)
-        mesa = '12';
-      else 
-        mesa = '14'
-
-      this.af.database.list('pedidosPorMesaPorPizzaria/'+ pizzariaKey+ '/1483498800').push({
-          idMesa: mesa,
-          keyMesa: '-K_VYPDv8R2fQUnCttpR',
-          keySabor: "-K_4wN_PztS82q7KXcvN",
-          saborDescricao: "Atum"+i,
-          timestamp: timestampHoje,
-          atendido: atendido
-      })
-    } 
   }
 
   atenderPedidos(pedidos: any[], pizzariaKey: string):Promise<any>{

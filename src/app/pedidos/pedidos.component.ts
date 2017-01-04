@@ -42,10 +42,6 @@ export class PedidosComponent implements OnInit {
   toast(mensagem: string){
     Materialize.toast(mensagem, 2000);
   }
-  gerarPedido(){
-    this.fireService.gerarPedido(this.pizzariaKey
-    );
-  } 
 
   orderBy(modo: string, asc?: boolean){
     switch(modo){
