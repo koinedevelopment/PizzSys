@@ -28,7 +28,16 @@ export class FireService {
   }
 
   isLoggedIn(){
-    return this.af.auth.asObservable();
+    let observer$: Observable<boolean>;
+    observer$ = new Observable<any>(observer => {
+      firebase.auth().onAuthStateChanged(result => {
+        if(result)
+          observer.next(true)
+        else  
+          observer.next(false);
+      })  
+    })
+    return observer$;
       
   }
 

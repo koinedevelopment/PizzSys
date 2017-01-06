@@ -9,7 +9,7 @@ export class CanActivateAuthService implements CanActivate{
   constructor(private authService: AuthService) { }
 
   canActivate():Observable<boolean> | boolean {
-    let observer$ = new Observable(observer => {
+    let observer$ = new Observable<boolean>(observer => {
       this.authService.isLoggedIn()
         .subscribe(user => {
           if(user)
@@ -18,6 +18,10 @@ export class CanActivateAuthService implements CanActivate{
             observer.next(false)
         });
     });
+    observer$
+      .subscribe(result => {
+        console.log(result)
+      })
     return observer$;
   } 
 }
