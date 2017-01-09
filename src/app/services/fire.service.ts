@@ -8,7 +8,7 @@ import { Observable } from 'rxjs/Rx';
 export class FireService {
 
   storageRef = firebase.storage().ref();
-  pizzaria;
+  pizzaria: any = {};
   constructor(private af: AngularFire){ 
     this.isLoggedIn()
       .subscribe(user => {
@@ -71,7 +71,21 @@ export class FireService {
 
   //SABORES
   getSabores(pizzaria:string): Observable<any>{
+
     return this.af.database.list('saboresPorPizzaria/'+pizzaria+'/sabores');
+  }
+
+  getSabores$(): Observable<any>{
+    let observer$ = new Observable<any>(observer => {
+      this.getPizzariaKey()
+        .then(key => {
+          this.af.database.list('saboresPorPizzaria/'+key+'/sabores')
+            .subscribe(sabores => {
+              observer.next(sabores);
+            })
+        })
+    })
+    return observer$;
   }
 
   saveSabor(sabor: any, pizzaria:string, imagem?: any):firebase.Promise<any> {

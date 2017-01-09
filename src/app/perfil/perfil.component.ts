@@ -34,6 +34,7 @@ export class PerfilComponent implements OnInit {
         this.perfilService.getPizzaria(key)
           .then(pizzaria => {
             this.pizzaria = pizzaria;
+            console.log(this.pizzaria)
             this.formPerfil.patchValue({
               email: this.pizzaria.email,
               descricao: this.pizzaria.descricao,

@@ -30,7 +30,7 @@
           <tr *ngFor="let pedido of pedidos; let i = index" >
             <td>{{pedido.numeroMesa}}</td>
             <td>{{pedido.sabor}}</td>
-            <td>{{ ((agora - pedido.timestamp)/60000).toFixed(0) > 0 ? ((agora - pedido.timestamp)/60000).toFixed(0) + ' Minutos' : 'Agora' }} </td>
+            <td>{{pedido.tempo_espera}} </td>
             <td>
               <div class="switch" id="ativo" >
                 <label>

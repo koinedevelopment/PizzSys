@@ -7,21 +7,23 @@ import { CanActivate } from '@angular/router';
 export class CanActivateAuthService implements CanActivate{
 
   constructor(private authService: AuthService) { }
-
+  observer$: Observable<boolean>
   canActivate():Observable<boolean> | boolean {
+    console.log('Authservice: ',this.authService.logged)
+    if(this.authService.logged){
+      return true;
+    }
     let observer$ = new Observable<boolean>(observer => {
       this.authService.isLoggedIn()
         .subscribe(user => {
-          if(user)
-            observer.next(true)
+          if(user){
+            observer.next(true);
+          }
           else
             observer.next(false)
         });
     });
-    observer$
-      .subscribe(result => {
-        console.log(result)
-      })
+    
     return observer$;
   } 
 }

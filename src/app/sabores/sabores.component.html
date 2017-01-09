@@ -2,8 +2,8 @@
   <div class="col s12 m10 offset-m1">
     <ul class="tabs" style="overflow:hidden" >
       <li class="tab col s4"><a href="#tab_cadastro">Cadastro</a></li>
-      <li class="tab col s4"><a class="active" href="#tab_lista">Lista</a></li>
-      <li class="tab col s4"><a class="active" href="#tab_disponivel">Sabores disponíveis</a></li>
+      <li class="tab col s4"><a href="#tab_lista">Lista</a></li>
+      <li class="tab col s4"><a href="#tab_disponivel" class="active" >Sabores disponíveis</a></li>
     </ul>
   </div>
 
@@ -87,7 +87,7 @@
   <div id="tab_disponivel" class="col s12">
     <div class="row">
       <br>
-      <h4 class="center-align" >Sabores cadastrados</h4>
+      <h4 class="center-align" >Sabores disponíveis</h4>
       <div class="col s12 m8 offset-m2">
         <ul class="collection">
           <li *ngFor="let sabor of sabores" (click)="onSelectSabor(sabor)" class="collection-item">{{sabor.descricao}}

@@ -5,8 +5,24 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class AuthService {
   pizzaria: string = null;
-  
+  logged: boolean = false;
+  logged$: Observable<any>;
+
   constructor(public fireService: FireService) {
+    this.logged$ = new Observable<boolean>(observer => {
+      this.fireService.isLoggedIn()
+        .subscribe(result => {
+          if (result){
+            console.log(result);
+            this.logged = true;
+            observer.next(true)
+          }
+          else{
+            this.logged = false;
+            observer.next(false)
+          }
+        })
+    })
 
   }
 
@@ -16,7 +32,20 @@ export class AuthService {
   }
 
   isLoggedIn():Observable<any> {
-     return this.fireService.isLoggedIn();
+    let observable$: Observable<boolean> = new Observable<boolean>(observer => {
+      this.fireService.isLoggedIn()
+        .subscribe(result => {
+          if (result){
+            this.logged = true;
+            observer.next(true)
+          }
+          else{
+            this.logged = false;
+            observer.next(false)
+          }
+        })
+    })
+     return this.logged$;
   }  
 
   login(user):firebase.Promise<any> {

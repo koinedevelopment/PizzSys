@@ -16,7 +16,7 @@ export class SaboresComponent implements OnInit {
   @ViewChild('imagemSabor')
   inputView: any;
   pizzaria: any;
-  sabores: any;
+  sabores: any[] = [];
   formSabores: FormGroup;
   formEdicao: FormGroup;
   selectedSabor: any = {
@@ -29,9 +29,30 @@ export class SaboresComponent implements OnInit {
   imagemEditSelecionada: any;
   tipoSelecionado: string = "";
   disponivel: boolean = false;
-  constructor(private formBuild: FormBuilder, private saborService: SaboresService, private authService: AuthService, private eleRef: ElementRef) { }
+
+
+  constructor(private formBuild: FormBuilder, private saborService: SaboresService, private authService: AuthService, private eleRef: ElementRef) {
+    
+  }
 
   ngOnInit() {
+
+    this.saborService.getSabores$()
+      .subscribe(sabores => {
+        this.sabores = sabores;
+        console.log(sabores);
+      })
+    /*
+    this.authService.getPizzariaKey()
+      .then(pizzaria => {
+        this.pizzaria = pizzaria;
+          this.saborService.getSabores(pizzaria)
+          .subscribe(sabores => {
+            console.log(this.sabores)
+            this.sabores = sabores;
+          });  
+        }); */
+
     this.formSabores = this.formBuild.group({
       'descricao': ['', Validators.required],
       'tipo': ['',Validators.required],
@@ -50,16 +71,6 @@ export class SaboresComponent implements OnInit {
         placeholder: 'Adicione os ingredientes',
         secondaryPlaceholder: '+Ingrediente',
       });
-
-      this.authService.getPizzariaKey()
-        .then(pizzaria => {
-          this.pizzaria = pizzaria;
-
-          this.saborService.getSabores(pizzaria)
-            .subscribe(sabores => {
-              this.sabores = sabores
-            });
-        })
   }
 
 

@@ -1,3 +1,5 @@
+import { AuthService } from './services/auth.service';
+import { Router } from '@angular/router';
 import { Component, OnInit} from '@angular/core';
 
 declare var jQuery: any;
@@ -9,6 +11,13 @@ declare var jQuery: any;
 export class AppComponent implements OnInit{
   title = 'app works!';
   ngOnInit(){
-    jQuery(".dropdown-button").dropdown();
+
+  }
+  constructor(private router: Router, private authService: AuthService){
+    this.authService.isLoggedIn()
+      .subscribe(user => {
+        if(user)
+          this.router.navigate(['sabores'])
+      })
   }
 }

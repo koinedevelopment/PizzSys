@@ -1,3 +1,4 @@
+import { Observable, Subscription } from 'rxjs/Rx';
 import { FireService } from './../services/fire.service';
 import { AuthService } from './../services/auth.service';
 import { PedidosService } from './../services/pedidos.service';
@@ -14,12 +15,13 @@ declare var Materialize: any;
   styleUrls: ['./pedidos.component.css']
 })
 
-export class PedidosComponent implements OnInit {
+export class PedidosComponent implements OnInit{
   pedidos: any[];
   pedidosAtendidos: any[] = [];
   agora: number;
   now: Date = new Date();
   pizzariaKey: string;
+  
   constructor(private pedidosService: PedidosService, private authService: AuthService, private fireService: FireService ) { }
 
   ngOnInit() {
@@ -29,14 +31,10 @@ export class PedidosComponent implements OnInit {
     this.authService.getPizzariaKey()
       .then(pizzariaKey => {
         this.pizzariaKey = pizzariaKey;
-        this.pedidosService.getPedidos(pizzariaKey)
-          .subscribe(pedidos => {
-            this.pedidos = pedidos;
-            console.log(pedidos);
-          })
-      })
-    jQuery('ul.tabs').tabs();
+        this.getPedidos();
+      });
 
+    jQuery('ul.tabs').tabs();
   }
 
   toast(mensagem: string){
@@ -98,6 +96,18 @@ export class PedidosComponent implements OnInit {
     
   }
   
+  getPedidos(){
+    this.pedidosService.getPedidos(this.pizzariaKey)
+      .subscribe(pedidos => {
+        this.now = new Date();
+        this.agora = Math.floor((new Date().getTime()));
+        this.pedidos = pedidos;
+        this.pedidos.map(pedido => {
+          ((this.agora - pedido.timestamp)/60000) > 1 ? pedido['tempo_espera'] = ((this.agora - pedido.timestamp)/60000).toFixed(0) + ' Minutos' : pedido['tempo_espera'] = 'Agora' 
+        })
+        console.log(this.pedidos);
+      })
+  }
 
 
 }

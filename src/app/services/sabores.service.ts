@@ -13,6 +13,10 @@ export class SaboresService {
     return this.fireService.getSabores(pizzaria)
   }
 
+  getSabores$():Observable<any> {
+    return this.fireService.getSabores$();
+  }
+
   saveSabor(sabor: any, pizzaria:string, imagem: any):firebase.Promise<any> {
     
     sabor['tipo_disponivel'] = sabor.disponivel.toString().concat('_',sabor.tipo);

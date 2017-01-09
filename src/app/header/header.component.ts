@@ -20,7 +20,6 @@ export class HeaderComponent implements OnInit {
       .subscribe(user => {
         if(user){
           this.isAuth = true;
-          this.router.navigate(['sabores']);
         }
         else{
           this.isAuth = false;
