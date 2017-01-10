@@ -17,7 +17,10 @@ export class AppComponent implements OnInit{
     this.authService.isLoggedIn()
       .subscribe(user => {
         if(user)
-          this.router.navigate(['sabores'])
+          this.router.navigate(['/']) 
+        else  
+          this.router.navigate(['login'])
+          
       })
   }
 }

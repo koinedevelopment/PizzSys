@@ -118,8 +118,7 @@ export class FireService {
   }
   
   updateDisponibilidade(pizzariaKey, saborKey: string, tipo_disponivel:string, disponivel: boolean):firebase.Promise<any> {
-    
-    return this.af.database.list('saboresPorPizzaria/'+pizzariaKey+'/sabores/').update(saborKey, {disponivel: disponivel, tipo_disponivel: tipo_disponivel});
+    return this.af.database.list('saboresPorPizzaria/'+this.pizzaria.key+'/sabores/').update(saborKey, {disponivel: disponivel, tipo_disponivel: tipo_disponivel});
   }
 
   //AUTENTICAÇÃO

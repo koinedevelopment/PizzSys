@@ -36,7 +36,7 @@ export class SaboresComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    document.getElementById('tab_disponivel').click();
     this.saborService.getSabores$()
       .subscribe(sabores => {
         this.sabores = sabores;

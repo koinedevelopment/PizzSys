@@ -23,6 +23,8 @@ import { LoginComponent } from './login/login.component';
 import { PerfilComponent } from './perfil/perfil.component';
 import { MesasComponent } from './mesas/mesas.component';
 import { PedidosComponent } from './pedidos/pedidos.component';
+import { RelatoriosComponent } from './relatorios/relatorios.component';
+import { HomeComponent } from './home/home.component';
 
 
 const config = {
@@ -46,7 +48,9 @@ const myFirebaseAuthConfig = {
     LoginComponent,
     PerfilComponent,
     MesasComponent,
-    PedidosComponent
+    PedidosComponent,
+    RelatoriosComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
