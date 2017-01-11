@@ -1,3 +1,4 @@
+import { AuthService } from './../services/auth.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
@@ -8,11 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private authService: AuthService) {
     console.log('constructor HomeComponent')
   }
 
   ngOnInit() {
+  
   }
 
+  currentUser(){
+    console.log(this.authService.isLoggedIn());
+  }
 }

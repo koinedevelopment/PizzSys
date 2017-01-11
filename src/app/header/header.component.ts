@@ -1,6 +1,7 @@
 import { AuthService } from './../services/auth.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import * as firebase from 'firebase';
 declare var jQuery: any;
 
 @Component({
@@ -11,21 +12,20 @@ declare var jQuery: any;
 export class HeaderComponent implements OnInit {
   isAuth: boolean = false;
   constructor(public router: Router, public authService: AuthService) {
+
     jQuery(".dropdown-button").dropdown({hover: true});
   }
 
   ngOnInit() {
-
     this.authService.isLoggedIn()
       .subscribe(user => {
-        console.log('user: header component', user)
-        if(user){
+        console.log('Header user', user);
+        if(user)
           this.isAuth = true;
-        }
-        else{
+        else  
           this.isAuth = false;
-        }
       })
+    
   }
 
   logout(){

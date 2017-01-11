@@ -14,13 +14,6 @@ export class AppComponent implements OnInit{
 
   }
   constructor(private router: Router, private authService: AuthService){
-    this.authService.isLoggedIn()
-      .subscribe(user => {
-        if(user)
-          this.router.navigate(['/']) 
-        else  
-          this.router.navigate(['login'])
-          
-      })
+
   }
 }

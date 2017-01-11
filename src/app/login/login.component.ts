@@ -1,6 +1,6 @@
 import { Router } from '@angular/router';
 import { AuthService } from './../services/auth.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
 declare var jQuery: any;
@@ -11,7 +11,7 @@ declare var Materialize: any;
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   formLogin: FormGroup;
   formSignup: FormGroup;
   constructor(public formBuilder: FormBuilder, public authService: AuthService, public router: Router) {
@@ -26,13 +26,23 @@ export class LoginComponent implements OnInit {
       'password': ['', Validators.required],
       'password_confirm': ['', Validators.required]
     })  
+
   }
 
   ngOnInit() {
+    this.authService.isLoggedIn()
+    .subscribe(user => {
+        if(user)
+          this.router.navigate(['sabores']);
+      });
+
     jQuery('.modal').modal();
   }
 
-  
+  ngOnDestroy(){
+    
+  }
+
   toast(mensagem: string){
     Materialize.toast(mensagem, 2000);
   }

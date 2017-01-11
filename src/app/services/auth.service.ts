@@ -1,6 +1,8 @@
+import { AngularFire } from 'angularfire2';
 import { Observable } from 'rxjs/Rx';
 import { FireService } from './fire.service';
 import { Injectable } from '@angular/core';
+import * as firebase from 'firebase';
 
 @Injectable()
 export class AuthService {
@@ -8,21 +10,8 @@ export class AuthService {
   logged: boolean = false;
   logged$: Observable<any>;
 
-  constructor(public fireService: FireService) {
-    this.logged$ = new Observable<boolean>(observer => {
-      this.fireService.isLoggedIn()
-        .subscribe(result => {
-          if (result){
-            console.log(result);
-            this.logged = true;
-            observer.next(true)
-          }
-          else{
-            this.logged = false;
-            observer.next(false)
-          }
-        })
-    })
+  constructor(private fireService: FireService, private af: AngularFire ) {
+
 
   }
 
@@ -32,21 +21,15 @@ export class AuthService {
   }
 
   isLoggedIn():Observable<any> {
-    let observable$: Observable<boolean> = new Observable<boolean>(observer => {
-      this.fireService.isLoggedIn()
-        .subscribe(result => {
-          if (result){
-            this.logged = true;
-            observer.next(true)
-          }
-          else{
-            this.logged = false;
-            observer.next(false)
-          }
-        })
-    })
-     return this.logged$;
+    let isLogged = false;
+    console.log(firebase.auth().currentUser)
+    if(firebase.auth().currentUser){
+      isLogged = true;
+    }
+    //console.log(this.af.auth.getAuth());
+    return this.af.auth.asObservable();
   }  
+
 
   login(user):firebase.Promise<any> {
     return this.fireService.signin(user);
