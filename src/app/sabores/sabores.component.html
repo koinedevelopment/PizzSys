@@ -21,7 +21,7 @@
           </div>
           <div class="row">
             <div class="col s12">
-              <div class="chips chips-ingredientes"></div>
+              <div class="chips chips-ingredientes" (click)="setIngredientes('.chips-ingredientes')" (keyup)="setIngredientes('.chips-ingredientes')" ></div>
             </div>
           </div>
           <div class="row">
@@ -57,12 +57,13 @@
           </div>
           <div class="row">
             <div class="col s12">
-              <button [disabled]="formSabores.invalid" type="submit" class="waves-effect col s12 waves-light btn">
+              <button [disabled]="formSabores.invalid || ingredientes.length < 1" type="submit" class="waves-effect col s12 waves-light btn">
                 <i class="material-icons right">send</i> Enviar
               </button>
             </div>
           </div>
         </form>
+        <button (click)="console()" >console</button>
       </div>
     </div>
   </div>
@@ -72,6 +73,9 @@
       <br>
       <h4 class="center-align" >Sabores cadastrados</h4>
       <div class="col s12 m8 offset-m2">
+        <div *ngIf="carregando" class="center-align">
+          <img src="assets/rolling1.svg">
+        </div>
         <div class="collection">
           <a *ngFor="let sabor of sabores" href="#modalSabor" (click)="onSelectSabor(sabor)" class="collection-item">{{sabor.descricao}}
             <span class="badge" *ngIf="sabor.disponivel">Disponível</span>
@@ -88,6 +92,9 @@
     <div class="row">
       <br>
       <h4 class="center-align" >Sabores disponíveis</h4>
+      <div *ngIf="carregando" class="center-align">
+        <img src="assets/rolling1.svg">
+      </div>
       <div class="col s12 m8 offset-m2">
         <ul class="collection">
           <li *ngFor="let sabor of sabores" (click)="onSelectSabor(sabor)" class="collection-item">{{sabor.descricao}}
@@ -154,3 +161,10 @@
       <a (click)="onSubmitEdit()" class=" modal-action modal-close waves-effect waves-green btn-flat">Salvar</a>
     </div>
 </div>
+
+<div id="modalLoading2" class="modal" style="width: 200px" >
+  <div class="modal-content">
+    <img src="assets/default.svg">
+  </div>
+</div>
+          

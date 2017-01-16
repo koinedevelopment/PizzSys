@@ -1,3 +1,4 @@
+import { QRCodeModule } from 'angular2-qrcode';
 import { PedidosService } from './services/pedidos.service';
 import {CanActivateAuthService} from './services/canActivate';
 import { PerfilService } from './services/perfil.service';
@@ -12,8 +13,6 @@ import { routing } from './app.routing';
 import { AngularFireModule, AuthMethods, AuthProviders } from 'angularfire2';
 import { FireService } from './services/fire.service';
 import { SaboresService } from './services/sabores.service';
-import { QRCodeModule } from 'angular2-qrcode';
- 
 import 'hammerjs';
   
 import { AppComponent } from './app.component';
@@ -53,14 +52,14 @@ const myFirebaseAuthConfig = {
     HomeComponent
   ],
   imports: [
+    QRCodeModule,
     BrowserModule,
     FormsModule,
     HttpModule,
     MaterialModule.forRoot(),
     routing,
     ReactiveFormsModule,
-    AngularFireModule.initializeApp(config, myFirebaseAuthConfig),
-    QRCodeModule
+    AngularFireModule.initializeApp(config, myFirebaseAuthConfig)
   ],
   providers: [
     SaboresService,

@@ -9,7 +9,10 @@
 <div class="col s12">
   <div class="row">
     <div class="col s12">
-      <table class="centered">
+      <div *ngIf="carregando" class="center-align">
+        <img src="assets/rolling1.svg">
+      </div>
+      <table class="centered" *ngIf="!carregando">
         <thead>
           <tr>
             <th><button class="btn btn-flat" (click)="orderBy('mesa')" >Mesa</button></th>
@@ -20,6 +23,7 @@
         </thead>
 
         <tbody>
+
           <tr *ngFor="let pedido of pedidos; let i = index" >
             <td>{{pedido.numeroMesa}}</td>
             <td>{{pedido.sabor}}</td>

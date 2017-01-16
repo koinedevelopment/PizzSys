@@ -2,6 +2,8 @@ import { MesasService } from './../services/mesas.service';
 import { AuthService } from './../services/auth.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
+import {QRCodeComponent} from 'angular2-qrcode';
+
 
 declare var Materialize: any;
 declare var jQuery: any;
@@ -10,6 +12,7 @@ declare var jQuery: any;
   selector: 'app-mesas',
   templateUrl: './mesas.component.html',
   styleUrls: ['./mesas.component.css']
+
 })
 export class MesasComponent implements OnInit {
 

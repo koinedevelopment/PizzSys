@@ -21,6 +21,7 @@ export class PedidosComponent implements OnInit{
   agora: number;
   now: Date = new Date();
   pizzariaKey: string;
+  carregando:boolean = true;
   
   constructor(private pedidosService: PedidosService, private authService: AuthService, private fireService: FireService ) { }
 
@@ -99,6 +100,7 @@ export class PedidosComponent implements OnInit{
   getPedidos(){
     this.pedidosService.getPedidos(this.pizzariaKey)
       .subscribe(pedidos => {
+        this.carregando = false;
         this.now = new Date();
         this.agora = Math.floor((new Date().getTime()));
         this.pedidos = pedidos;

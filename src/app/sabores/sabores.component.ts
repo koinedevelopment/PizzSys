@@ -1,3 +1,4 @@
+import { Subscription, Observable } from 'rxjs';
 import { AuthService } from './../services/auth.service';
 import { SaboresService } from './../services/sabores.service';
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
@@ -29,7 +30,7 @@ export class SaboresComponent implements OnInit {
   imagemEditSelecionada: any;
   tipoSelecionado: string = "";
   disponivel: boolean = false;
-
+  carregando: boolean = true;
 
   constructor(private formBuild: FormBuilder, private saborService: SaboresService, private authService: AuthService, private eleRef: ElementRef) {
     
@@ -37,21 +38,13 @@ export class SaboresComponent implements OnInit {
 
   ngOnInit() {
     document.getElementById('tab_disponivel').click();
+
     this.saborService.getSabores$()
       .subscribe(sabores => {
         this.sabores = sabores;
+        this.carregando = false;
         console.log(sabores);
-      })
-    /*
-    this.authService.getPizzariaKey()
-      .then(pizzaria => {
-        this.pizzaria = pizzaria;
-          this.saborService.getSabores(pizzaria)
-          .subscribe(sabores => {
-            console.log(this.sabores)
-            this.sabores = sabores;
-          });  
-        }); */
+      });
 
     this.formSabores = this.formBuild.group({
       'descricao': ['', Validators.required],
@@ -78,6 +71,10 @@ export class SaboresComponent implements OnInit {
     Materialize.toast(mensagem, 2000);
   }
 
+  console(){
+    console.log(this.formSabores);
+    console.log(this.ingredientes);
+  }
   onSelectSabor(sabor){
     this.selectedSabor = sabor;
     this.selectedSabor.imageURL ? this.imagemEditSelecionada = this.selectedSabor.imageURL : this.imagemEditSelecionada = null; 
@@ -155,13 +152,19 @@ export class SaboresComponent implements OnInit {
       })
   }
 
+  setIngredientes(classeChips: string){
+    this.ingredientes = this.returnIngredientes(classeChips);
+  }
+
   returnIngredientes(classeChips: string){
     let tags: Array<any> = jQuery(classeChips).material_chip('data');
     console.log('tags: ',tags);
     let ingredientes: Array<any> = [];
-    tags.map(tag => {
-      ingredientes.push(tag.tag);
-    });
+    
+    if(tags)
+      tags.map(tag => {
+        ingredientes.push(tag.tag);
+      });
 
     return ingredientes;
   }
@@ -199,15 +202,17 @@ export class SaboresComponent implements OnInit {
     let ingredientes = this.returnIngredientes('.chips-ingredientes');
     
     sabor['ingredientes'] = ingredientes;
-    console.log(sabor);
-    this.saborService.saveSabor(sabor,this.pizzaria, this.inputImagem)
-      .then( snap =>{
-        this.toast('Sabor salvo com sucesso.');
-        jQuery('.chips-ingredientes').material_chip({data: []});
-        this.imagemSelecionada = "";
-        this.formSabores.reset();
-        this.resetInputImage();
-      });
+    if(sabor.ingredientes.length < 1 )
+      alert('Insira os ingredientes da pizza')
+    else
+      this.saborService.saveSabor(sabor,this.pizzaria, this.inputImagem)
+        .then( snap =>{
+          this.toast('Sabor salvo com sucesso.');
+          jQuery('.chips-ingredientes').material_chip({data: []});
+          this.imagemSelecionada = "";
+          this.formSabores.reset();
+          this.resetInputImage();
+        });
       
   }
 

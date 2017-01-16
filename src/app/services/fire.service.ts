@@ -93,16 +93,16 @@ export class FireService {
       let key = this.af.database.list('saboresPorPizzaria/'+pizzaria+'/sabores/').push(sabor).key;
       return firebase.storage().ref('sabores/'+key).put(imagem)
         .then(snap => {
-          return firebase.database().ref('saboresPorPizzaria/'+pizzaria+'/sabores/'+key).update({imageURL: snap.downloadURL})
+          return firebase.database().ref('saboresPorPizzaria/'+this.pizzaria.key+'/sabores/'+key).update({imageURL: snap.downloadURL})
         })
     }
     else{
-      return this.af.database.list('saboresPorPizzaria/'+pizzaria+'/sabores/').push(sabor);
+      return this.af.database.list('saboresPorPizzaria/'+this.pizzaria.key+'/sabores/').push(sabor);
     }
   }
   
   removeSabor(sabor: any, pizzaria): firebase.Promise<any>{
-    return this.af.database.list('saboresPorPizzaria/'+pizzaria+'/sabores/').remove(sabor.$key);
+    return this.af.database.list('saboresPorPizzaria/'+this.pizzaria.key+'/sabores/').remove(sabor.$key);
   }
 
   updateSabor(sabor: any, pizzaria:string, imagem?:any):firebase.Promise<any>{
